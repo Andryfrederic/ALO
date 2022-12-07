@@ -6,7 +6,8 @@
  * @flow
  */
 
- import React, { Component } from 'react';
+ import React, { useState, useEffect } from 'react';
+
  import {
    SafeAreaView,
    StyleSheet,
@@ -21,7 +22,7 @@
    Modal,
    Image,
    TouchableOpacity,
-   AsyncStorage, 
+   AsyncStorage
  } from 'react-native';
  import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
  import Icon from 'react-native-vector-icons/Ionicons';
@@ -37,25 +38,25 @@
 //  import moment from 'moment';
 //  import SelectDropdown from 'react-native-select-dropdown'
 //  import { Touchable } from 'react-native';
- export default class Apps  extends React.Component{
+ export default function Apps ({ navigation }) {
  
-   static navigationOptions =
-    {
-     headerShown: false
-    };
-         constructor(props){
-         super(props)
-             this.state={
-                 login:'',
-             password:'',
-             itemValue:'en',
-           showPass:true,
-           press:false,
-           remebrer:false,
-           activeSwitch:1,
-           lang:false
+  //  static navigationOptions =
+  //   {
+  //    headerShown: false
+  //   };
+  //        constructor(props){
+  //        super(props)
+  //            this.state={
+  //                login:'',
+  //            password:'',
+  //            itemValue:'en',
+  //          showPass:true,
+  //          press:false,
+  //          remebrer:false,
+  //          activeSwitch:1,
+  //          lang:false
            
-           }
+          //  }
         //    I18n.locale = 'en';
         //    I18n.fallbacks = true;
         //    I18n.translations = {
@@ -63,23 +64,28 @@
         //    fr,
         //    es
         //  }; 
- }
- componentDidMount() {
-   this.getUser(); 
-//    let thisMoment = moment();
-//    let endOfMonth = moment(thisMoment).endOf('year');
-//    let startOfMonth = moment(thisMoment).startOf('year');
-//    // var begin = moment().format("YYYY-MM-01");
-//    // var end = moment().format("YYYY-MM-") + moment().daysInMonth();
-//    console.log(endOfMonth.format("YYYY-MM-DD")+' et '+startOfMonth.format("YYYY-MM-DD"));    
+//  }
+ const [login, setlogin] = useState('');
+ const [password, setpassword] = useState('');
+ const [itemValue, setitemValue] = useState('en');
+ const [showPass, setshowPass] = useState(true);
+ const [press, setpress] = useState(false);
+ const [remebrer, setremebrer] = useState(true);
+ const [activeSwitch, setactiveSwitch] = useState('1');
+
+//  componentDidMount() {
+//   //  this.getUser(); 
+// //    let thisMoment = moment();
+// //    let endOfMonth = moment(thisMoment).endOf('year');
+// //    let startOfMonth = moment(thisMoment).startOf('year');
+// //    // var begin = moment().format("YYYY-MM-01");
+// //    // var end = moment().format("YYYY-MM-") + moment().daysInMonth();
+// //    console.log(endOfMonth.format("YYYY-MM-DD")+' et '+startOfMonth.format("YYYY-MM-DD"));    
  
- }
+//  }
  
  
  connecter =() =>{   
- const {login}=this.state;
- const {password}=this.state;
- const {remebrer}=this.state;
  if(login != '' && password != ''){fetch('https://preprod.forma2plus.com/portail-stagiaire/index.php', {
          method: 'POST',
          headers: {
@@ -104,7 +110,7 @@
                      }
            else{
                        if(remebrer == true){
-                               console.log(JSON.stringify(responseJson));
+                              //  console.log(JSON.stringify(responseJson));
                                this.storeUser(
                                responseJson.login,
                                responseJson.nom,
@@ -119,39 +125,44 @@
                                responseJson.id_groupe
                            
                                );
-                             this.props.navigation.navigate('HomeEvaluation',{user:responseJson,
-                               login1:responseJson.login,
-                               nom1:responseJson.nom,
-                               prenom1:responseJson.prenom,
-                               email1:responseJson.email,
-                               tel1:responseJson.tel,
-                               adresse1:responseJson.adresse,
-                               cp1:responseJson.cp,
-                               ville1:responseJson.ville,
-                               password1:responseJson.password,
-                               id1:responseJson.id,
-                               id_groupe:responseJson.id_groupe,
-                               trand:this.state.itemValue
- 
-                             })                            ; 
+                               navigation.navigate('HomeEvaluation',{screen: 'Home',params:
+                             {  user:responseJson,
+                              login1:responseJson.login,
+                              nom1:responseJson.nom,
+                              prenom1:responseJson.prenom,
+                              email1:responseJson.email,
+                              tel1:responseJson.tel,
+                              adresse1:responseJson.adresse,
+                              cp1:responseJson.cp,
+                              ville1:responseJson.ville,
+                              password1:responseJson.password,
+                              id1:responseJson.id,
+                              id_groupe:responseJson.id_groupe,
+                              trand:itemValue}
+                                });                           ; 
  
                        }
                        else{
-                               console.log(JSON.stringify(responseJson));
-                               this.props.navigation.navigate('HomeEvaluation',{user:responseJson,
-                               login1:responseJson.login,
-                               nom1:responseJson.nom,
-                               prenom1:responseJson.prenom,
-                               email1:responseJson.email,
-                               tel1:responseJson.tel,
-                               adresse1:responseJson.adresse,
-                               cp1:responseJson.cp,
-                               ville1:responseJson.ville,
-                               password1:responseJson.password,
-                               id1:responseJson.id,
-                               id_groupe:responseJson.id_groupe,
-                               trand:this.state.itemValue
-                             });
+                              //  console.log(JSON.stringify(responseJson));
+                               navigation.navigate('HomeEvaluation',
+                               {screen: 'Home',
+                               params:
+                                    {
+                                      user:responseJson,
+                                      login1:responseJson.login,
+                                      nom1:responseJson.nom,
+                                      prenom1:responseJson.prenom,
+                                      email1:responseJson.email,
+                                      tel1:responseJson.tel,
+                                      adresse1:responseJson.adresse,
+                                      cp1:responseJson.cp,
+                                      ville1:responseJson.ville,
+                                      password1:responseJson.password,
+                                      id1:responseJson.id,
+                                      id_groupe:responseJson.id_groupe,
+                                      trand:itemValue
+                                    }
+                              });
  
                        }
    }
@@ -247,28 +258,30 @@
    //     alert("can't remebrer your login");
    //   }
    //   };
-   change(p){
- this.setState({password:p});
- 
+   change=(p)=>{
+    setpassword(p);
    }
    changefr = () =>{
      // alert("ok");
-       this.setState({itemValue:'fr',lang:false});
+     setitemValue('fr');
+     
+      //  this.setState({itemValue:'fr',lang:false});
     //    I18n.locale = 'fr';
    }
    changeen = () =>{
      // alert("ok");
-       this.setState({itemValue:'en',lang:false});
+     setitemValue('en');
+      //  this.setState({itemValue:'en',lang:false});
     //    I18n.locale = 'en';
    }
    changees = () =>{
      // alert("ok");
-       this.setState({itemValue:'es',lang:false});
+     setitemValue('es');
+      //  this.setState({itemValue:'es',lang:false});
     //    I18n.locale = 'es';
    }
- render(){
+
 //  const {navigate} =this.props.navigation;
- const {itemValue}=this.state;
  const countries = ["Egypt", "Canada", "Australia", "Ireland"];
  
  return(
@@ -321,7 +334,7 @@
              placeholder="username"
              
              underlineColorAndroid='transparent'
-             onChangeText= {login => this.setState({login})}
+             onChangeText= {(login) => setlogin(login)}
  
              />
    </View>
@@ -352,8 +365,7 @@
              secureTextEntry={true}
              placeholderTextColor = "white"
              placeholder='password'
-             // underlineColorAndroid='transparent'
-             onChangeText= {password => this.setState({password})}
+             onChangeText= {(password) => setpassword(password)}
              
              />
   
@@ -388,8 +400,8 @@
  onValueChange={() => this.setState({remebrer:!this.state.remebrer})}
  checked={true}
  /> */}
-       {!this.state.remebrer?(<TouchableOpacity
-       onPress={() => this.setState({remebrer:!this.state.remebrer})}
+       {!remebrer?(<TouchableOpacity
+       onPress={() => alert('ok')}
        style={{
          flexDirection:'row',
          justifyContent:'center',
@@ -409,7 +421,7 @@
            </Text>
  
        </TouchableOpacity>):(<TouchableOpacity
-       onPress={() => this.setState({remebrer:!this.state.remebrer})}
+       onPress={() => alert('ok')}
        style={{
          flexDirection:'row',
          justifyContent:'center',
@@ -631,7 +643,6 @@
  
  </View>  
  );
- }
  }
  
  

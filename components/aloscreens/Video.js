@@ -25,7 +25,7 @@
    TouchableOpacity,
    AsyncStorage, 
  } from 'react-native';
-class List extends Component {
+class Video extends Component {
   static navigationOptions =
   {
    headerShown: false
@@ -37,10 +37,10 @@ class List extends Component {
     render() {
         return (
             <View>
-            <Text style={{textAlign: 'center', marginTop: 300}}>List    Screen</Text>
+            <Text style={{textAlign: 'center', marginTop: 300}}>Video    Screen</Text>
           </View>
         );
     }
 }
 
-export default List;
+export default Video;
