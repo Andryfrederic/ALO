@@ -21,8 +21,7 @@
    Alert,
    Modal,
    Image,
-   TouchableOpacity,
-   AsyncStorage, 
+   TouchableOpacity
  } from 'react-native';
  import { Avatar, Button, Card, Title, Paragraph , Searchbar} from 'react-native-paper';
  import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
@@ -36,7 +35,7 @@
                 placeholder="Search"
                 onChangeText={onChangeSearch}
                 value={searchQuery}
-                style={{width:wp('70%'),alignSelf:'center', borderRadius:20, marginTop:hp('1%'), height:35}}
+                style={styles.searchBar}
               />
             <Text style={{textAlign: 'center', marginTop: 300}}>Audio    Screen</Text>
           </View>
@@ -44,3 +43,12 @@
     }
 
 export default Audio;
+const styles = StyleSheet.create({
+  searchBar: {
+    width:wp('70%'),
+    alignSelf:'center',
+    borderRadius:20,
+    marginTop:hp('1%'),
+    height:35
+  }
+})

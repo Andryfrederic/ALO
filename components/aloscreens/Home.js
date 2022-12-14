@@ -37,6 +37,7 @@
     const {user} = route.params;
     const [cat, setCat] = useState(dataTheme)
     const [desc, setDesc] = useState("")
+    const [duration, setDuration] = useState('')
     const [refreshing,setRefreshing] = useState(false)
     const [isLoading,setIsLoading] = useState(false)
     const [paused , setPaused] = useState(true)
@@ -49,8 +50,8 @@
     const nativeLang = ["Français", "Anglais"]
     const targetLang = ["Français", "Anglais"]
     const dataTheme = [
-                            {"id":"5752","user_create":"","id_groupe":"15921","intitule":"presente your workspace","description":"Present your work space during 5 minutes max","date_creation":""},
-                            {"id":"6535","user_create":"","id_groupe":"15921","intitule":"Talk about you ","description":"Talk about you, your Jobs, family, hobies","date_creation":""}
+                            {"id":"5752","user_create":"","id_groupe":"15921","intitule":"presente your workspace","description":"Present your work space during 5 minutes max","duration":"05:00","date_creation":""},
+                            {"id":"6535","user_create":"","id_groupe":"15921","intitule":"Talk about you ","description":"Talk about you, your Jobs, family, hobies","duration":"03:00","date_creation":""}
                       ]
     testRita = () =>{
     alert("bnb,nb,")
@@ -74,7 +75,7 @@
                 ).then((response) => response.json())
                  .then((responseJson) => {
                   setCat(dataTheme);
-                  console.log(JSON.stringify(dataTheme));
+                //   console.log(JSON.stringify(dataTheme));
                     })
                  .catch((error) => {
                   console.error(error);
@@ -111,13 +112,13 @@
         this.getData();
         setRefreshing(false);
       };
-      subjectRenderer=(id,intitule,index,description)=>{
+      subjectRenderer=(id,intitule,index,description,dur)=>{
         let colors = ['#FFE9F9', '#EAF9FE', '#FFF5E5', '#FBF5FF','#FFF1EF','#A2A2A2'];
         if (id!== ''){
             if (idcat==id){
             return(
                 <TouchableOpacity
-                    onPress={()=>{setPic(''),setIdcat(''),setDesc('')}}>
+                    onPress={()=>{setPic(''),setIdcat(''),setDesc(''),setDuration('')}}>
                         <View style={{flexDirection:'row',alignItems:'center',backgroundColor:'#DBDDDC',borderWidth:0.5,borderColor:'#5C4DB1',borderRadius:20,justifyContent:'center'}}>
                             <Text style={{
                                     marginHorizontal:wp('3%'),
@@ -154,7 +155,7 @@
             else{
             return(
                 <TouchableOpacity
-                    onPress={()=>{setIdcat(id),setPic(id),setDesc(description)}}>
+                    onPress={()=>{setIdcat(id),setPic(id),setDesc(description),setDuration(dur)}}>
                         <View style={{alignItems:'center',borderWidth:0.5,borderColor:'#5C4DB1',borderRadius:20,justifyContent:'flex-start'}}>
                             <View
                                 style={{
@@ -207,13 +208,17 @@
                                     renderItem={({item,index})=>
                                             <View style={{flexDirection:'column',justifyContent:'center',marginRight:wp('2%'),height:hp('7%'),
                                             }}>
-                                                    {this.subjectRenderer(item.id,item.intitule,index,item.description)}
+                                                    {this.subjectRenderer(item.id,item.intitule,index,item.description,item.duration)}
                                             </View>
                                 } />
-                                <Text style={styles.title1}>Description:</Text>
+                                {desc?(<Text style={styles.title1}>Instruction:</Text>):null}
                                 <ScrollView style={styles.descriptionConainer} >
                                     <Text>
                                         {desc}
+                                    </Text>
+                                        {duration?(<Text style={styles.title1}>Max duration:</Text>):null}
+                                    <Text>
+                                        {duration}
                                     </Text>
                                 </ScrollView>
                             </View>
